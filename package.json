@@ -1,0 +1,26 @@
+{
+  "name": "seo-article",
+  "version": "0.2.1",
+  "description": "A ClawHub/OpenClaw skill that generates SEO outlines or Google-ready HTML articles from keyword and brand inputs.",
+  "license": "MIT",
+  "private": false,
+  "files": [
+    "SKILL.md",
+    "agents",
+    "references",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "clawhub",
+    "openclaw",
+    "clawhub-skill",
+    "seo",
+    "seo-article",
+    "google-seo",
+    "content-marketing"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,12 @@
+*
+!SKILL.md
+!agents/
+!agents/openai.yaml
+!references/
+!references/article-mode.md
+!references/outline-mode.md
+!references/output-contract.md
+!references/quality-gate.md
+!README.md
+!LICENSE
+!package.json
