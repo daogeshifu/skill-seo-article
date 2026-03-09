@@ -33,3 +33,5 @@ The skill returns:
 
 - outline mode: JSON with `title` and `result`, where `result` contains only `H2:` and `H3:` lines
 - article mode: a `.docx` file written to the workspace, plus a short confirmation containing its absolute path
+
+If the runtime supports intermediate status messages, the skill may also emit one-line progress updates before the final result. Those updates are separate from the final payload and must not be mixed into it.

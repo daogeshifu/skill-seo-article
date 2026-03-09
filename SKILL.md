@@ -65,6 +65,37 @@ Work in one pass:
 
 Keep the brief and checklist internal unless the user explicitly asks to see them.
 
+## Progress Updates
+
+If the runtime supports separate intermediate status messages, emit progress updates during execution. If it does not, skip progress updates entirely rather than mixing them into the final output.
+
+Rules:
+
+- Progress updates must be sent as standalone intermediate messages, never inside the final result.
+- Use this exact format: `[Progress current/total] label`
+- Keep each progress message to one short line.
+- Never include JSON payloads, article body content, Markdown draft, or the final `.docx` path in a progress message.
+- The final message must still follow the active mode contract exactly.
+
+Use these stage labels in `article` mode:
+
+1. `[Progress 1/8] Parsing inputs`
+2. `[Progress 2/8] Inferring search intent`
+3. `[Progress 3/8] Building outline`
+4. `[Progress 4/8] Drafting article`
+5. `[Progress 5/8] Reviewing SEO quality`
+6. `[Progress 6/8] Preparing output file`
+7. `[Progress 7/8] Exporting Word document`
+8. `[Progress 8/8] Verifying output`
+
+Use these stage labels in `outline` mode:
+
+1. `[Progress 1/5] Parsing inputs`
+2. `[Progress 2/5] Inferring search intent`
+3. `[Progress 3/5] Building outline`
+4. `[Progress 4/5] Reviewing outline quality`
+5. `[Progress 5/5] Packaging result`
+
 ## Planning Rules
 
 Before writing, derive:
@@ -104,6 +135,7 @@ Use `article` mode when the user asks for:
 - Exclude or avoid promoting brands listed in `exclude_brands`.
 - In `outline` mode, return JSON only.
 - In `article` mode, write a `.docx` file to the current workspace and return the absolute output path.
+- Progress updates are optional intermediate messages only; they must never be merged into the final output.
 
 ## Article Rules
 
@@ -157,6 +189,7 @@ Review the draft or outline before returning it.
 - Hard fail in `outline` mode if `Conclusion` or `FAQs` is missing.
 - Hard fail in `article` mode if no `.docx` file was written.
 - Hard fail in `article` mode if the returned message does not include the absolute `.docx` path.
+- Hard fail in any mode if a progress line is included inside the final output.
 - Hard fail in `article` mode if H1 does not contain the keyword.
 - Hard fail in `article` mode if the keyword is absent from the introduction.
 - Hard fail in `article` mode if there are fewer than 3 H2 headings.

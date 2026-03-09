@@ -15,6 +15,7 @@ Rules:
 - `result` contains only `H2:` and `H3:` lines
 - No markdown `##` or `###`
 - No prose outside the JSON object
+- If progress updates are emitted, they must be separate intermediate messages and must not appear inside the JSON
 
 ## Article Mode
 
@@ -26,6 +27,20 @@ Rules:
 - The file extension must be `.docx`
 - Do not return the article body inline
 - Do not wrap the path in JSON unless the user explicitly requests JSON packaging
+- If progress updates are emitted, they must be separate intermediate messages and must not appear in the final line containing the path
+
+## Progress Message Contract
+
+When the runtime supports intermediate status messages, use this exact one-line format:
+
+`[Progress current/total] label`
+
+Rules:
+
+- Progress messages are optional
+- Progress messages must be sent before the final output, never after it
+- Progress messages must not include article content, JSON payloads, or the final `.docx` path
+- If separate intermediate messages are not supported, emit no progress messages
 
 ## Article Details
 

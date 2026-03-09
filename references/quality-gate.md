@@ -33,6 +33,7 @@ If any outline check fails, revise before returning output.
 - In `article` mode, a `.docx` file was actually written.
 - In `article` mode, the returned message includes the absolute `.docx` path.
 - The Markdown source includes one `#` title and a clear conclusion and FAQ section before conversion.
+- No progress update text appears inside the final output payload.
 
 If any hard check fails, revise before returning output.
 
@@ -56,3 +57,4 @@ If any hard check fails, revise before returning output.
 - Abrupt FAQ appended with no relation to the article
 - Broken links or placeholder URLs such as `example.com`
 - Returning the full article inline instead of writing the `.docx`
+- Mixing progress lines into the final JSON or final file-path response
