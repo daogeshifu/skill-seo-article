@@ -4,6 +4,7 @@ Run this checklist before returning the outline or article.
 
 ## JSON Checks
 
+- Apply these only in `outline` mode:
 - Output is valid JSON.
 - The JSON object contains only the keys required by the active mode.
 - `title` contains exactly 3 non-empty strings.
@@ -29,8 +30,9 @@ If any outline check fails, revise before returning output.
 - The article includes at least 3 H2 headings.
 - The body is at least 1500 words unless a shorter target was explicitly requested.
 - Keyword density is not below 0.8% and not above 3%.
-- The response is HTML inside the `result` field.
-- The HTML includes one `<title>` and one `<meta name="description">`.
+- In `article` mode, a `.docx` file was actually written.
+- In `article` mode, the returned message includes the absolute `.docx` path.
+- The Markdown source includes one `#` title and a clear conclusion and FAQ section before conversion.
 
 If any hard check fails, revise before returning output.
 
@@ -43,7 +45,7 @@ If any hard check fails, revise before returning output.
 - Sentences stay readable and paragraphs are not bloated.
 - Brand mentions are natural and not repetitive.
 - Links are relevant and not forced.
-- Any image URLs are real web URLs, not placeholders or base64 blobs.
+- The output filename is readable and slug-like when not explicitly provided.
 
 ## Anti-Patterns
 
@@ -53,4 +55,4 @@ If any hard check fails, revise before returning output.
 - Claims of rankings or performance guarantees
 - Abrupt FAQ appended with no relation to the article
 - Broken links or placeholder URLs such as `example.com`
-- Fake image URLs or local file paths
+- Returning the full article inline instead of writing the `.docx`

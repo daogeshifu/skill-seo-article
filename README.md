@@ -1,11 +1,12 @@
 # seo-article
 
-`seo-article` is a ClawHub/OpenClaw skill for generating either a structured SEO outline or a full Google-friendly SEO article for independent websites.
+`seo-article` is a ClawHub/OpenClaw skill for generating either a structured SEO outline or a full Google-friendly SEO article for independent websites. In `article` mode it now writes a Word `.docx` file instead of returning HTML JSON.
 
 ## Included files
 
 - `SKILL.md`: skill trigger metadata and workflow instructions
 - `agents/openai.yaml`: optional UI metadata for OpenAI-compatible surfaces
+- `scripts/markdown_to_docx.py`: local converter from Markdown article draft to `.docx`
 - `references/output-contract.md`: final output contract
 - `references/quality-gate.md`: self-review rules
 - `references/outline-mode.md`: outline generation rules
@@ -31,4 +32,4 @@ recommend_links:
 The skill returns:
 
 - outline mode: JSON with `title` and `result`, where `result` contains only `H2:` and `H3:` lines
-- article mode: JSON with `title` and `result`, where `result` contains pure HTML
+- article mode: a `.docx` file written to the workspace, plus a short confirmation containing its absolute path

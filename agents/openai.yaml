@@ -1,4 +1,4 @@
 interface:
   display_name: "SEO Article"
-  short_description: "Generate SEO outlines or articles from keyword and brand"
-  default_prompt: "Use $seo-article to generate either an SEO outline or a Google-friendly independent-site article from a keyword and brand."
+  short_description: "Generate SEO outlines or write SEO articles to Word files"
+  default_prompt: "Use $seo-article to generate either an SEO outline or a Google-friendly independent-site article written to a Word .docx file from a keyword and brand."

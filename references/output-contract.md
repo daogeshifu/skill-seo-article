@@ -1,7 +1,5 @@
 # Output Contract
 
-Return JSON only. Do not wrap in code fences. Do not prepend commentary.
-
 ## Outline Mode
 
 Use exactly this shape:
@@ -20,28 +18,18 @@ Rules:
 
 ## Article Mode
 
-Use exactly this shape:
-
-```json
-{"title":["Title 1","Title 2","Title 3"],"result":"<title>...</title><meta name=\"description\" content=\"...\" /><article>...</article>"}
-```
+Write a `.docx` file and return only the file path or a short confirmation line containing the absolute file path.
 
 Rules:
 
-- Only two keys: `title` and `result`
-- `title` contains exactly 3 SEO-friendly titles
-- `result` contains pure HTML
-- `result` must include:
-  - one `<title>`
-  - one `<meta name="description">`
-  - one `<h1>`
-  - at least three `<h2>`
-  - FAQ markup near the end
-- No markdown, no code fences, no extra commentary
+- The path must be absolute
+- The file extension must be `.docx`
+- Do not return the article body inline
+- Do not wrap the path in JSON unless the user explicitly requests JSON packaging
 
 ## Article Details
 
 - Keep the article above 1500 words unless the user asks for shorter output
 - Use 2 to 5 internal links when suitable
 - If links are unavailable, omit them rather than invent broken URLs
-- If images cannot be verified, omit them rather than invent fake image URLs
+- Draft the article in Markdown and convert it with `scripts/markdown_to_docx.py`

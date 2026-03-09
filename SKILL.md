@@ -1,6 +1,6 @@
 ---
 name: seo-article
-description: Generate SEO outlines or full long-form articles for independent websites from a keyword, brand, and optional references. Use when the user asks for H2/H3 planning, blog writing, HTML article output, or JSON payloads for content pipelines.
+description: Generate SEO outlines or full long-form articles for independent websites from a keyword, brand, and optional references. Use when the user asks for H2/H3 planning, blog writing, or Word document output for content publishing.
 user-invocable: true
 ---
 
@@ -35,6 +35,7 @@ Supported fields:
 - `link_form` or `链接形式` (optional)
 - `exclude_brands` or `排除品牌` (optional list)
 - `search_intent` or `搜索意图` (optional)
+- `output_filename` or `输出文件名` (optional, article mode only)
 
 Defaults:
 
@@ -47,6 +48,7 @@ Defaults:
 - `search_intent`: inferred from the keyword if not provided
 - `link_form`: infer from user context; prefer natural inline anchors
 - `exclude_brands`: empty
+- `output_filename`: slugified from the chosen title with `.docx`
 
 If `keyword` is missing, ask for it and stop.
 
@@ -59,7 +61,7 @@ Work in one pass:
 3. Branch by `mode`.
 4. Self-check against the quality gate.
 5. Revise up to two times if needed.
-6. Package the final output in the required JSON shape.
+6. Write the final deliverable in the required shape.
 
 Keep the brief and checklist internal unless the user explicitly asks to see them.
 
@@ -91,23 +93,26 @@ Use `article` mode when the user asks for:
 
 - a blog post
 - a full article
-- HTML output
+- a Word file
 - publish-ready content
 - a complete SEO article
 
 ## Shared Rules
 
-- Return JSON only. Do not wrap it in code fences.
-- Use exactly two top-level keys: `title` and `result`.
-- `title` must contain exactly 3 SEO-friendly title options.
 - Keep planning notes, checklists, and revision notes internal.
 - Do not invent citations, rankings, statistics, links, or image URLs.
 - Exclude or avoid promoting brands listed in `exclude_brands`.
+- In `outline` mode, return JSON only.
+- In `article` mode, write a `.docx` file to the current workspace and return the absolute output path.
 
 ## Article Rules
 
 In `article` mode:
 
+- Draft the article in Markdown first, then convert it to `.docx` with `python3 scripts/markdown_to_docx.py`.
+- Use the chosen SEO title as the document title and generate a concise meta description for the document subtitle.
+- Write the final file to `output_filename` if provided; otherwise slugify the chosen title and append `.docx`.
+- Keep the intermediate Markdown in a temporary file only if needed for the conversion step.
 - Keep total length above 1500 words unless the user explicitly asks for a shorter article.
 - Use exactly one H1 and include the primary keyword in it.
 - Mention the primary keyword in the first paragraph and closing section.
@@ -118,8 +123,9 @@ In `article` mode:
 - Integrate the brand naturally. If `brand` is `none`, keep the article neutral.
 - If `site_domain` is provided, mention it naturally near the beginning and the ending.
 - Prefer practical explanation, comparison, step-by-step guidance, or buyer education based on intent.
-- When adding images, use real web URLs only. If you cannot verify accessible image URLs, omit images instead of inventing them.
 - When adding links, use `recommend_links` first if provided and respect `link_form`.
+- Use Markdown structure that converts cleanly to Word: `#` for the title, `##` for major sections, `###` for subsections, normal paragraphs for body copy, and simple bullet lists where useful.
+- After writing the `.docx`, return a short confirmation with the absolute file path and nothing else.
 
 ## Outline Rules
 
@@ -149,8 +155,8 @@ Review the draft or outline before returning it.
 
 - Hard fail in `outline` mode if the output contains anything other than `H2:` and `H3:` lines in `result`.
 - Hard fail in `outline` mode if `Conclusion` or `FAQs` is missing.
-- Hard fail in `article` mode if the output is not valid JSON with `title` and `result`.
-- Hard fail in `article` mode if `result` is not HTML.
+- Hard fail in `article` mode if no `.docx` file was written.
+- Hard fail in `article` mode if the returned message does not include the absolute `.docx` path.
 - Hard fail in `article` mode if H1 does not contain the keyword.
 - Hard fail in `article` mode if the keyword is absent from the introduction.
 - Hard fail in `article` mode if there are fewer than 3 H2 headings.
@@ -169,5 +175,5 @@ Use this skill for requests like:
 - "给我一篇关键词+品牌的谷歌 SEO 文章"
 - "给我一个只包含 H2/H3 的 SEO 大纲"
 - "Write an SEO article for my brand from this keyword"
-- "帮我生成独立站博客，返回 HTML 和 JSON"
+- "帮我生成独立站博客，并写成 Word 文件"
 - "根据关键词和参考链接生成 SEO outline"
